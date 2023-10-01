@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'text-analizer
+
+  Sample SAM Template for text-analizer
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+    Tracing: Active
+  Api:
+    TracingEnabled: true
+    Cors:
+      AllowMethods: '''GET,POST,OPTIONS'''
+      AllowHeaders: '''content-type'''
+      AllowOrigin: '''*'''
+Resources:
+  TextAnalizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: TextAnalizerFunction
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      Events:
+        TextAnalizer:
+          Type: Api
+          Properties:
+            Path: /text-analizer
+            Method: post
+      Environment:
+        Variables:
+          NODE_OPTIONS: ' --enable-source-maps'
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+        - app.ts
+        Minify: true
+        Sourcemap: true
+        Target: es2020
+      SamResourceId: TextAnalizerFunction
+Outputs:
+  TextAnalizerApi:
+    Description: API Gateway endpoint URL for Prod stage for Text Analizer function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/TextAnalizer/
+  TextAnalizerFunction:
+    Description: Text Analizer World Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - TextAnalizerFunction
+      - Arn
+  TextAnalizerFunctionIamRole:
+    Description: Implicit IAM Role created for Text Analizer function
+    Value:
+      Fn::GetAtt:
+      - TextAnalizerFunctionRole
+      - Arn

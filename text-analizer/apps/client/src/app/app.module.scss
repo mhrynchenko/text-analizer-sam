@@ -1,0 +1,31 @@
+label, textarea {
+  display: block;
+}
+
+.container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.inputText {
+  width: 300px;
+}
+
+.submit {
+  width: 308px;
+  height: 40px;
+  margin-top: 1rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.result {
+  width: 308px;
+  background-color: lightgray;
+   margin-top: 16px;
+}
